@@ -62,6 +62,7 @@
             this.txtJiraBugId.Name = "txtJiraBugId";
             this.txtJiraBugId.Size = new System.Drawing.Size(330, 20);
             this.txtJiraBugId.TabIndex = 1;
+            this.txtJiraBugId.Text = "MI-";
             // 
             // label1
             // 
@@ -182,15 +183,15 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(515, 50);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(169, 13);
+            this.label6.Size = new System.Drawing.Size(359, 13);
             this.label6.TabIndex = 16;
-            this.label6.Text = "(You need to set this up in GitHub)";
+            this.label6.Text = "(You need to set this up in GitHub in Settings. This will infer your username)";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1013, 593);
+            this.ClientSize = new System.Drawing.Size(1013, 346);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtPersonalAccessToken);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace JiraGitHubPRCreator
@@ -10,20 +11,36 @@ namespace JiraGitHubPRCreator
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
         {
             var branch = txtBranchName.Text;
             var jiraBugId = txtJiraBugId.Text;
             var title = txtPrTitle.Text;
-            var prTitleHalfway = jiraBugId + ": " + title;
             var description = txtLongDescription.Text;
-            var personalAccessToken = txtPersonalAccessToken.Text;
+            var personalAccessToken = this.txtPersonalAccessToken.Text;
 
-            var x = new GitHubWrapper(personalAccessToken);
+            var linkedPrCreator = new LinkedPrCreator(personalAccessToken, branch, jiraBugId, title, description, "grantadesign", "mi");
+
+            var branchDefinitions = new List<BranchDefinition>();
+
             if (chkNext.Checked)
             {
-                x.CreatePullRequest(branch, prTitleHalfway, description, "grantadesign", "mi", "next", "next");
+                branchDefinitions.Add(new BranchDefinition("next", "next"));
             }
+            if (chk81.Checked)
+            {
+                branchDefinitions.Add(new BranchDefinition("releases/8.1/next", "8.1"));
+            }
+            if (chk8.Checked)
+            {
+                branchDefinitions.Add(new BranchDefinition("releases/8.0/next", "8.0"));
+            }
+            if (chk7.Checked)
+            {
+                branchDefinitions.Add(new BranchDefinition("releases/7.0/next", "7.0"));
+            }
+
+            linkedPrCreator.MakeLinkedPullRequests(branchDefinitions);
         }
     }
 }

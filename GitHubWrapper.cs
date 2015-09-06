@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Octokit;
 
@@ -16,7 +17,7 @@ namespace JiraGitHubPRCreator
             this.client.Credentials = authToken;
         }
 
-        public async void CreatePullRequest(string branchToMerge, string prTitleHalfway, string description, string targetUsername, string targetRepository, string targetBranch, string shortTargetBranchName)
+        public async Task<PullRequest> CreatePullRequest(string branchToMerge, string prTitleHalfway, string description, string targetUsername, string targetRepository, string targetBranch, string shortTargetBranchName)
         {
             var user = await this.client.User.Current();
             var username = user.Login;
@@ -30,6 +31,7 @@ namespace JiraGitHubPRCreator
             {
                 var pullRequest = await this.client.Repository.PullRequest.Create(targetUsername, targetRepository, newPR);
                 MessageBox.Show("Success!");
+                return pullRequest;
             }
             catch (Exception)
             {
