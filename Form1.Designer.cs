@@ -51,7 +51,7 @@
             this.button1.Location = new System.Drawing.Point(257, 245);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(137, 43);
-            this.button1.TabIndex = 0;
+            this.button1.TabIndex = 9;
             this.button1.Text = "Make Pull Requests!";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -87,7 +87,7 @@
             this.txtPrTitle.Location = new System.Drawing.Point(105, 69);
             this.txtPrTitle.Name = "txtPrTitle";
             this.txtPrTitle.Size = new System.Drawing.Size(330, 20);
-            this.txtPrTitle.TabIndex = 3;
+            this.txtPrTitle.TabIndex = 2;
             // 
             // txtLongDescription
             // 
@@ -95,7 +95,7 @@
             this.txtLongDescription.Multiline = true;
             this.txtLongDescription.Name = "txtLongDescription";
             this.txtLongDescription.Size = new System.Drawing.Size(330, 104);
-            this.txtLongDescription.TabIndex = 5;
+            this.txtLongDescription.TabIndex = 3;
             // 
             // label3
             // 
@@ -120,7 +120,7 @@
             this.txtBranchName.Location = new System.Drawing.Point(105, 17);
             this.txtBranchName.Name = "txtBranchName";
             this.txtBranchName.Size = new System.Drawing.Size(330, 20);
-            this.txtBranchName.TabIndex = 8;
+            this.txtBranchName.TabIndex = 0;
             // 
             // chk7
             // 
@@ -128,7 +128,7 @@
             this.chk7.Location = new System.Drawing.Point(105, 225);
             this.chk7.Name = "chk7";
             this.chk7.Size = new System.Drawing.Size(56, 17);
-            this.chk7.TabIndex = 10;
+            this.chk7.TabIndex = 4;
             this.chk7.Text = "MI 7.0";
             this.chk7.UseVisualStyleBackColor = true;
             // 
@@ -138,7 +138,7 @@
             this.chk8.Location = new System.Drawing.Point(105, 248);
             this.chk8.Name = "chk8";
             this.chk8.Size = new System.Drawing.Size(56, 17);
-            this.chk8.TabIndex = 11;
+            this.chk8.TabIndex = 5;
             this.chk8.Text = "MI 8.0";
             this.chk8.UseVisualStyleBackColor = true;
             // 
@@ -148,7 +148,7 @@
             this.chk81.Location = new System.Drawing.Point(105, 271);
             this.chk81.Name = "chk81";
             this.chk81.Size = new System.Drawing.Size(56, 17);
-            this.chk81.TabIndex = 12;
+            this.chk81.TabIndex = 6;
             this.chk81.Text = "MI 8.1";
             this.chk81.UseVisualStyleBackColor = true;
             // 
@@ -158,7 +158,7 @@
             this.chkNext.Location = new System.Drawing.Point(105, 294);
             this.chkNext.Name = "chkNext";
             this.chkNext.Size = new System.Drawing.Size(61, 17);
-            this.chkNext.TabIndex = 13;
+            this.chkNext.TabIndex = 7;
             this.chkNext.Text = "MI next";
             this.chkNext.UseVisualStyleBackColor = true;
             // 
@@ -176,7 +176,7 @@
             this.txtPersonalAccessToken.Location = new System.Drawing.Point(671, 20);
             this.txtPersonalAccessToken.Name = "txtPersonalAccessToken";
             this.txtPersonalAccessToken.Size = new System.Drawing.Size(330, 20);
-            this.txtPersonalAccessToken.TabIndex = 14;
+            this.txtPersonalAccessToken.TabIndex = 8;
             // 
             // label6
             // 
