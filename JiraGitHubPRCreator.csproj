@@ -79,11 +79,15 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="GitHubWrapper.cs" />
-    <Compile Include="LinkedPrCreator.cs" />
+    <Compile Include="GitHub\GitHubWrapper.cs" />
+    <Compile Include="GitHub\LinkedPrCreator.cs" />
+    <Compile Include="GitHub\MikesPullRequest.cs" />
+    <Compile Include="Jira\Constants.cs" />
+    <Compile Include="Jira\JiraComment.cs" />
+    <Compile Include="Jira\JiraWrapper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BranchDefinition.cs" />
+    <Compile Include="GitHub\BranchDefinition.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
