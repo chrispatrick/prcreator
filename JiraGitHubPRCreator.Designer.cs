@@ -44,14 +44,16 @@
             this.label5 = new System.Windows.Forms.Label();
             this.txtPersonalAccessToken = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.chkAddJiraLinks = new System.Windows.Forms.CheckBox();
+            this.chkSetPendingMerge = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(257, 245);
+            this.button1.Location = new System.Drawing.Point(348, 242);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(137, 43);
-            this.button1.TabIndex = 9;
+            this.button1.Size = new System.Drawing.Size(137, 66);
+            this.button1.TabIndex = 10;
             this.button1.Text = "Make Pull Requests!";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -125,7 +127,7 @@
             // chk7
             // 
             this.chk7.AutoSize = true;
-            this.chk7.Location = new System.Drawing.Point(105, 225);
+            this.chk7.Location = new System.Drawing.Point(23, 222);
             this.chk7.Name = "chk7";
             this.chk7.Size = new System.Drawing.Size(56, 17);
             this.chk7.TabIndex = 4;
@@ -135,7 +137,7 @@
             // chk8
             // 
             this.chk8.AutoSize = true;
-            this.chk8.Location = new System.Drawing.Point(105, 248);
+            this.chk8.Location = new System.Drawing.Point(23, 245);
             this.chk8.Name = "chk8";
             this.chk8.Size = new System.Drawing.Size(56, 17);
             this.chk8.TabIndex = 5;
@@ -145,7 +147,7 @@
             // chk81
             // 
             this.chk81.AutoSize = true;
-            this.chk81.Location = new System.Drawing.Point(105, 271);
+            this.chk81.Location = new System.Drawing.Point(23, 268);
             this.chk81.Name = "chk81";
             this.chk81.Size = new System.Drawing.Size(56, 17);
             this.chk81.TabIndex = 6;
@@ -155,7 +157,7 @@
             // chkNext
             // 
             this.chkNext.AutoSize = true;
-            this.chkNext.Location = new System.Drawing.Point(105, 294);
+            this.chkNext.Location = new System.Drawing.Point(23, 291);
             this.chkNext.Name = "chkNext";
             this.chkNext.Size = new System.Drawing.Size(61, 17);
             this.chkNext.TabIndex = 7;
@@ -176,7 +178,7 @@
             this.txtPersonalAccessToken.Location = new System.Drawing.Point(671, 20);
             this.txtPersonalAccessToken.Name = "txtPersonalAccessToken";
             this.txtPersonalAccessToken.Size = new System.Drawing.Size(330, 20);
-            this.txtPersonalAccessToken.TabIndex = 8;
+            this.txtPersonalAccessToken.TabIndex = 11;
             // 
             // label6
             // 
@@ -187,11 +189,33 @@
             this.label6.TabIndex = 16;
             this.label6.Text = "(You need to set this up in GitHub in Settings. This will infer your username)";
             // 
-            // Form1
+            // chkAddJiraLinks
+            // 
+            this.chkAddJiraLinks.AutoSize = true;
+            this.chkAddJiraLinks.Location = new System.Drawing.Point(129, 245);
+            this.chkAddJiraLinks.Name = "chkAddJiraLinks";
+            this.chkAddJiraLinks.Size = new System.Drawing.Size(125, 17);
+            this.chkAddJiraLinks.TabIndex = 8;
+            this.chkAddJiraLinks.Text = "Add PR links to JIRA";
+            this.chkAddJiraLinks.UseVisualStyleBackColor = true;
+            // 
+            // chkSetPendingMerge
+            // 
+            this.chkSetPendingMerge.AutoSize = true;
+            this.chkSetPendingMerge.Location = new System.Drawing.Point(129, 268);
+            this.chkSetPendingMerge.Name = "chkSetPendingMerge";
+            this.chkSetPendingMerge.Size = new System.Drawing.Size(170, 17);
+            this.chkSetPendingMerge.TabIndex = 9;
+            this.chkSetPendingMerge.Text = "Set JIRA issue Pending Merge";
+            this.chkSetPendingMerge.UseVisualStyleBackColor = true;
+            // 
+            // JiraGitHubPRCreator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1013, 346);
+            this.Controls.Add(this.chkSetPendingMerge);
+            this.Controls.Add(this.chkAddJiraLinks);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtPersonalAccessToken);
@@ -208,7 +232,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtJiraBugId);
             this.Controls.Add(this.button1);
-            this.Name = "Form1";
+            this.Name = "JiraGitHubPRCreator";
             this.Text = "Form1";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -233,6 +257,8 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtPersonalAccessToken;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.CheckBox chkAddJiraLinks;
+        private System.Windows.Forms.CheckBox chkSetPendingMerge;
     }
 }
 

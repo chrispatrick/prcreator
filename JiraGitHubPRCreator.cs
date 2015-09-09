@@ -18,6 +18,8 @@ namespace JiraGitHubPRCreator
             var title = txtPrTitle.Text;
             var description = txtLongDescription.Text;
             var personalAccessToken = this.txtPersonalAccessToken.Text;
+            var shouldAddJiraLinks = chkAddJiraLinks.Checked;
+            var shouldSetJiraPendingMerge = chkSetPendingMerge.Checked;
 
             var linkedPrCreator = new LinkedPrCreator(personalAccessToken, branch, jiraBugId, title, description, "grantadesign", "mi");
 
@@ -40,7 +42,7 @@ namespace JiraGitHubPRCreator
                 branchDefinitions.Add(new BranchDefinition("releases/7.0/next", "7.0"));
             }
 
-            linkedPrCreator.MakeLinkedPullRequests(branchDefinitions);
+            linkedPrCreator.MakeLinkedPullRequests(branchDefinitions, shouldAddJiraLinks, shouldSetJiraPendingMerge);
         }
     }
 }

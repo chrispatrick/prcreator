@@ -35,5 +35,11 @@ namespace JiraGitHubPRCreator.Jira
                 return false;
             }
         }
+
+        public static async Task<bool> SetPendingMerge(string jiraBugId)
+        {
+            return false;
+            // TODO
+        }
     }
 }
