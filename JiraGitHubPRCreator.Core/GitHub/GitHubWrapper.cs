@@ -1,24 +1,30 @@
 using System;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using Octokit;
 
-namespace JiraGitHubPRCreator
+namespace JiraGitHubPRCreator.Core.GitHub
 {
     internal class GitHubWrapper
     {
         private readonly GitHubClient client;
+        private readonly IUserNotifier notifier;
 
-        public GitHubWrapper(string personalAccessToken)
+        public GitHubWrapper(string personalAccessToken, IUserNotifier userNotifier)
         {
+            if (userNotifier == null)
+            {
+                throw new ArgumentNullException("userNotifier");
+            }
+
             if (string.IsNullOrEmpty(personalAccessToken))
             {
-                throw new ArgumentNullException(personalAccessToken);
+                throw new ArgumentNullException("personalAccessToken");
             }
 
             this.client = new GitHubClient(new ProductHeaderValue("mikeparker-testapp"));
             var authToken = new Credentials(personalAccessToken); // ask user to enter this from ui
             this.client.Credentials = authToken;
+            notifier = userNotifier;
         }
 
         public async Task<PullRequest> CreatePullRequest(string branchToMerge, string prTitleHalfway, string description, string targetUsername, string targetRepository, string targetBranch, string shortTargetBranchName)
@@ -34,17 +40,17 @@ namespace JiraGitHubPRCreator
             try
             {
                 var pullRequest = await this.client.Repository.PullRequest.Create(targetUsername, targetRepository, newPR);
-                MessageBox.Show("Success! Created PR #" + pullRequest.Number + ": " + pullRequest.Title);
+                notifier.NotifyUser("Success! Created PR #" + pullRequest.Number + ": " + pullRequest.Title);
                 return pullRequest;
             }
-            catch (Octokit.ApiValidationException e)
+            catch (ApiValidationException e)
             {
-                MessageBox.Show(e.Message + "\n\n" + e.HttpResponse.Body);
+                notifier.NotifyUser(e.Message + "\n\n" + e.HttpResponse.Body);
                 throw;
             }
             catch (Exception)
             {
-                MessageBox.Show("Error!");
+                notifier.NotifyUser("Error!");
                 throw;
             }
         }

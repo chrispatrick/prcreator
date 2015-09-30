@@ -5,7 +5,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JiraGitHubPRCreator.Jira
+namespace JiraGitHubPRCreator.Core.Jira
 {
     public class JiraWrapper
     {

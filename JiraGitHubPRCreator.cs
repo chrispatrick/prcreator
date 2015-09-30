@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JiraGitHubPRCreator.Core.GitHub;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -21,7 +22,7 @@ namespace JiraGitHubPRCreator
             var shouldAddJiraLinks = chkAddJiraLinks.Checked;
             var shouldSetJiraPendingMerge = chkSetPendingMerge.Checked;
 
-            var linkedPrCreator = new LinkedPrCreator(personalAccessToken, branch, jiraBugId, title, description, "grantadesign", "mi");
+            var linkedPrCreator = new LinkedPrCreator(personalAccessToken, branch, jiraBugId, title, description, "grantadesign", "mi", new MessageBoxUserNotifier());
 
             var branchDefinitions = new List<BranchDefinition>();
 

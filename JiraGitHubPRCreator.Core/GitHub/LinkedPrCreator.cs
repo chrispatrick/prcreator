@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using JiraGitHubPRCreator.Jira;
 using Octokit;
+using JiraGitHubPRCreator.Core.Jira;
 
-namespace JiraGitHubPRCreator
+namespace JiraGitHubPRCreator.Core.GitHub
 {
     public class LinkedPrCreator
     {
@@ -15,8 +15,9 @@ namespace JiraGitHubPRCreator
         private readonly string targetUsername;
         private readonly string targetRepository;
         private readonly string prTitleHalfway;
+        private readonly IUserNotifier userNotifier;
 
-        public LinkedPrCreator(string personalAccessToken, string branch, string jiraBugId, string title, string description, string targetUsername, string targetRepository)
+        public LinkedPrCreator(string personalAccessToken, string branch, string jiraBugId, string title, string description, string targetUsername, string targetRepository, IUserNotifier userNotifier)
         {
             this.personalAccessToken = personalAccessToken;
             this.branch = branch;
@@ -25,12 +26,13 @@ namespace JiraGitHubPRCreator
             this.targetUsername = targetUsername;
             this.targetRepository = targetRepository;
             this.prTitleHalfway = jiraBugId + ": " + title;
+            this.userNotifier = userNotifier;
         }
 
         // Will place the full description on the first PR in this list, and link to it from the others.
         public async void MakeLinkedPullRequests(List<BranchDefinition> pullRequestDefinitions, bool shouldAddJiraLinks, bool shouldSetJiraPendingMerge)
         {
-            var gitHubWrapper = new GitHubWrapper(this.personalAccessToken);
+            var gitHubWrapper = new GitHubWrapper(this.personalAccessToken, userNotifier);
             var newPullRequests = new List<MikesPullRequest>();
 
             foreach (var pullRequestDefinition in pullRequestDefinitions)

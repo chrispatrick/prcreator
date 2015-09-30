@@ -1,4 +1,4 @@
-namespace JiraGitHubPRCreator.Jira
+namespace JiraGitHubPRCreator.Core.Jira
 {
     public class JiraComment
     {

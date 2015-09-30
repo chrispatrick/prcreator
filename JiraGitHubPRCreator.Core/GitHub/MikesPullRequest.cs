@@ -1,6 +1,6 @@
 using Octokit;
 
-namespace JiraGitHubPRCreator
+namespace JiraGitHubPRCreator.Core.GitHub
 {
     public class MikesPullRequest
     {

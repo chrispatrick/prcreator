@@ -1,4 +1,4 @@
-namespace JiraGitHubPRCreator
+namespace JiraGitHubPRCreator.Core.GitHub
 {
     public class BranchDefinition
     {
