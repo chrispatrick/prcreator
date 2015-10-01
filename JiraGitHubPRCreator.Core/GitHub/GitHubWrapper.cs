@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Octokit;
 
@@ -53,6 +55,11 @@ namespace JiraGitHubPRCreator.Core.GitHub
                 notifier.NotifyUser("Error!");
                 throw;
             }
+        }
+
+        public async Task<IReadOnlyList<Branch>> GetBranches(string username, string repository)
+        {
+            return await client.Repository.GetAllBranches(username, repository);
         }
     }
 }

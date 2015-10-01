@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
 using JiraGitHubPRCreator.Core.GitHub;
 using JiraGitHubPRCreator.Web.Models;
 using System.Collections.Generic;
@@ -8,14 +10,31 @@ namespace JiraGitHubPRCreator.Web.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public ActionResult AuthorizeGitHub()
         {
-            return View();
+            return new ChallengeResult("GitHub", Url.Action("Index"));
+        }
+
+        public async Task<ActionResult> Index()
+        {
+            var accessToken = await GetGithubToken();
+            if (accessToken == null)
+            {
+                return AuthorizeGitHub();
+            }
+
+            var webUserNotifier = new WebUserNotifier();
+            var branchFetcher = new BranchFetcher(webUserNotifier);
+            var branches = await branchFetcher.GetAllBranchNames(accessToken, "chrispatrick", "mi");
+
+            return View(new PRRequestModel {Branches = branches, Messages = webUserNotifier.Messages});
         }
 
         public async Task<ActionResult> Submit(PRRequestModel model)
         {
-            var linkedPrCreator = new LinkedPrCreator(model.PersonalAccessToken, model.BranchName, model.JiraIssueId, model.PullRequestTitle, model.Description, "grantadesign", "mi", new WebUserNotifier());
+            var accessToken = await GetGithubToken();
+            var webUserNotifier = new WebUserNotifier();
+            var linkedPrCreator = new LinkedPrCreator(accessToken, model.BranchName, model.JiraIssueId, model.PullRequestTitle, model.Description, "grantadesign", "mi", webUserNotifier);
 
             var branchDefinitions = new List<BranchDefinition>();
 
@@ -38,7 +57,23 @@ namespace JiraGitHubPRCreator.Web.Controllers
 
             await linkedPrCreator.MakeLinkedPullRequests(branchDefinitions, model.AddLinksToJira, model.SetJiraIssuePendingMerge);
 
-            return View("Index");
+            model.Messages = webUserNotifier.Messages;
+            return View("Index", model);
+        }
+
+        private async Task<string> GetGithubToken()
+        {
+            var authenticateResult = await HttpContext.GetOwinContext().Authentication.AuthenticateAsync("ExternalCookie");
+            if (authenticateResult != null)
+            {
+                var tokenClaim = authenticateResult.Identity.Claims.FirstOrDefault(claim => claim.Type == "urn:token:github");
+                if (tokenClaim != null)
+                {
+                    return tokenClaim.Value;
+                }
+            }
+
+            return null;
         }
     }
 }
