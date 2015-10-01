@@ -23,13 +23,9 @@ namespace JiraGitHubPRCreator.Web.Controllers
                 return AuthorizeGitHub();
             }
 
-            var username = await GetGithubUserName();
-
             var webUserNotifier = new WebUserNotifier();
-            var branchFetcher = new BranchFetcher(webUserNotifier);
-            var branches = await branchFetcher.GetAllBranchNames(accessToken, username, "mi");
 
-            return View(new PRRequestModel {Branches = branches, Messages = webUserNotifier.Messages});
+            return View(await GetModel(webUserNotifier, null, accessToken));
         }
 
         public async Task<ActionResult> Submit(PRRequestModel model)
@@ -59,8 +55,25 @@ namespace JiraGitHubPRCreator.Web.Controllers
 
             await linkedPrCreator.MakeLinkedPullRequests(branchDefinitions, model.AddLinksToJira, model.SetJiraIssuePendingMerge);
 
+            return View("Index", await GetModel(webUserNotifier, model, accessToken));
+        }
+
+        private async Task<PRRequestModel> GetModel(WebUserNotifier webUserNotifier, PRRequestModel model, string accessToken)
+        {
+            if (model == null)
+            {
+                model = new PRRequestModel();
+            }
+
+            var username = await GetGithubUserName();
+
+            var branchFetcher = new BranchFetcher(webUserNotifier);
+            var branches = await branchFetcher.GetAllBranchNames(accessToken, username, "mi");
+
+            model.Branches = branches;
             model.Messages = webUserNotifier.Messages;
-            return View("Index", model);
+
+            return model;
         }
 
         private async Task<string> GetGithubToken()
