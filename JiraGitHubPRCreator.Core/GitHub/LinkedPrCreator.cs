@@ -30,7 +30,7 @@ namespace JiraGitHubPRCreator.Core.GitHub
         }
 
         // Will place the full description on the first PR in this list, and link to it from the others.
-        public async void MakeLinkedPullRequests(List<BranchDefinition> pullRequestDefinitions, bool shouldAddJiraLinks, bool shouldSetJiraPendingMerge)
+        public async Task MakeLinkedPullRequests(List<BranchDefinition> pullRequestDefinitions, bool shouldAddJiraLinks, bool shouldSetJiraPendingMerge)
         {
             var gitHubWrapper = new GitHubWrapper(this.personalAccessToken, userNotifier);
             var newPullRequests = new List<MikesPullRequest>();
@@ -43,12 +43,12 @@ namespace JiraGitHubPRCreator.Core.GitHub
 
             if (shouldAddJiraLinks)
             {
-                JiraWrapper.SubmitComment(jiraBugId, MakeFullJIRAComment(newPullRequests));
+                await JiraWrapper.SubmitComment(jiraBugId, MakeFullJIRAComment(newPullRequests));
             }
 
             if (shouldSetJiraPendingMerge)
             {
-                JiraWrapper.SetPendingMerge(jiraBugId);
+                await JiraWrapper.SetPendingMerge(jiraBugId);
             }
         }
 

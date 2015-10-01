@@ -1,4 +1,5 @@
-﻿using JiraGitHubPRCreator.Core.GitHub;
+﻿using System.Threading.Tasks;
+using JiraGitHubPRCreator.Core.GitHub;
 using JiraGitHubPRCreator.Web.Models;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -12,7 +13,7 @@ namespace JiraGitHubPRCreator.Web.Controllers
             return View();
         }
 
-        public ActionResult Submit(PRRequestModel model)
+        public async Task<ActionResult> Submit(PRRequestModel model)
         {
             var linkedPrCreator = new LinkedPrCreator(model.PersonalAccessToken, model.BranchName, model.JiraIssueId, model.PullRequestTitle, model.Description, "grantadesign", "mi", new WebUserNotifier());
 
@@ -35,7 +36,7 @@ namespace JiraGitHubPRCreator.Web.Controllers
                 branchDefinitions.Add(new BranchDefinition("releases/7.0/next", "7.0"));
             }
 
-            linkedPrCreator.MakeLinkedPullRequests(branchDefinitions, model.AddLinksToJira, model.SetJiraIssuePendingMerge);
+            await linkedPrCreator.MakeLinkedPullRequests(branchDefinitions, model.AddLinksToJira, model.SetJiraIssuePendingMerge);
 
             return View("Index");
         }
