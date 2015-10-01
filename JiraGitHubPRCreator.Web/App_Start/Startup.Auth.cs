@@ -30,7 +30,8 @@ namespace JiraGitHubPRCreator.Web
                 {
                     OnAuthenticated = context =>
                     {
-                        context.Identity.AddClaim(new Claim("urn:token:github", context.AccessToken));
+                        context.Identity.AddClaim(new Claim("urn:github:token", context.AccessToken));
+                        context.Identity.AddClaim(new Claim("urn:github:username", context.UserName));
 
                         return Task.FromResult(true);
                     }

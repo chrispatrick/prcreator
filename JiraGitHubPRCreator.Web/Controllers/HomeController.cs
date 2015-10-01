@@ -23,9 +23,11 @@ namespace JiraGitHubPRCreator.Web.Controllers
                 return AuthorizeGitHub();
             }
 
+            var username = await GetGithubUserName();
+
             var webUserNotifier = new WebUserNotifier();
             var branchFetcher = new BranchFetcher(webUserNotifier);
-            var branches = await branchFetcher.GetAllBranchNames(accessToken, "chrispatrick", "mi");
+            var branches = await branchFetcher.GetAllBranchNames(accessToken, username, "mi");
 
             return View(new PRRequestModel {Branches = branches, Messages = webUserNotifier.Messages});
         }
@@ -66,7 +68,22 @@ namespace JiraGitHubPRCreator.Web.Controllers
             var authenticateResult = await HttpContext.GetOwinContext().Authentication.AuthenticateAsync("ExternalCookie");
             if (authenticateResult != null)
             {
-                var tokenClaim = authenticateResult.Identity.Claims.FirstOrDefault(claim => claim.Type == "urn:token:github");
+                var tokenClaim = authenticateResult.Identity.Claims.FirstOrDefault(claim => claim.Type == "urn:github:token");
+                if (tokenClaim != null)
+                {
+                    return tokenClaim.Value;
+                }
+            }
+
+            return null;
+        }
+
+        private async Task<string> GetGithubUserName()
+        {
+            var authenticateResult = await HttpContext.GetOwinContext().Authentication.AuthenticateAsync("ExternalCookie");
+            if (authenticateResult != null)
+            {
+                var tokenClaim = authenticateResult.Identity.Claims.FirstOrDefault(claim => claim.Type == "urn:github:username");
                 if (tokenClaim != null)
                 {
                     return tokenClaim.Value;
