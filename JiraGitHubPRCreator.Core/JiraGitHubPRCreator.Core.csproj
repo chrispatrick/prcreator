@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GitHub\BranchDefinition.cs" />
+    <Compile Include="GitHub\RepositoryFetcher.cs" />
     <Compile Include="GitHub\BranchFetcher.cs" />
     <Compile Include="GitHub\GitHubWrapper.cs" />
     <Compile Include="GitHub\LinkedPrCreator.cs" />

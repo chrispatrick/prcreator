@@ -61,5 +61,10 @@ namespace JiraGitHubPRCreator.Core.GitHub
         {
             return await client.Repository.GetAllBranches(username, repository);
         }
+
+        public async Task<IReadOnlyList<Repository>> GetRepositoriesForOrg(string organisation)
+        {
+            return await client.Repository.GetAllForOrg(organisation);
+        }
     }
 }

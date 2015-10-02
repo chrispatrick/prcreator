@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using Antlr.Runtime;
 using JiraGitHubPRCreator.Core.GitHub;
 using JiraGitHubPRCreator.Web.Models;
 using System.Collections.Generic;
@@ -70,6 +72,12 @@ namespace JiraGitHubPRCreator.Web.Controllers
             var branchFetcher = new BranchFetcher(webUserNotifier);
             var branches = await branchFetcher.GetAllBranchNames(accessToken, username, "mi");
 
+            var repositoryFetcher = new RepositoryFetcher(webUserNotifier);
+            var repositories = await repositoryFetcher.GetAllRepositoryNames(accessToken, "grantadesign");
+
+            model.Repositories = repositories;
+            model.Repository = "mi";
+
             model.Branches = branches;
             model.Messages = webUserNotifier.Messages;
 
@@ -104,6 +112,27 @@ namespace JiraGitHubPRCreator.Web.Controllers
             }
 
             return null;
+        }
+
+        public async Task<ActionResult> FetchBranches(string repository)
+        {
+            var accessToken = await GetGithubToken();
+            var username = await GetGithubUserName();
+
+            var branchFetcher = new BranchFetcher(new WebUserNotifier());
+
+            IEnumerable<string> branches;
+
+            try
+            {
+                branches = await branchFetcher.GetAllBranchNames(accessToken, username, repository);
+            }
+            catch (Exception)
+            {
+                return Json(new[] {"Could not fetch branches"});
+            }
+
+            return Json(branches.ToArray());
         }
     }
 }

@@ -3,6 +3,28 @@
 }
 
 @model JiraGitHubPRCreator.Web.Models.PRRequestModel
+           
+@section scripts
+{
+    <script type="text/javascript">
+        function FillBranches() {
+            var repository = $('#Repository').val();
+            $.ajax({
+                url: '@Url.Action("FetchBranches")',
+                type: "POST",
+                dataType: "JSON",
+                data: { Repository : repository },
+                success: function (branches) {
+                    $("#BranchName").html(""); // clear before appending new list 
+                    $.each(branches, function (i, city) {
+                        $("#BranchName").append(
+                            $('<option></option>').val(city).html(city));
+                    });
+                }
+            });
+        }
+    </script>
+}
 
 <div class="jumbotron">
     <h1>GitHub & JIRA PR Creator</h1>
@@ -20,6 +42,10 @@
     @using (Html.BeginForm("Submit", "Home"))
     {
         <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Repository, "Repository")
+                @Html.DropDownListFor(m => m.Repository, Model.Repositories.Select(r => new SelectListItem { Text = r, Value = r }), new { onchange = "FillBranches()" })
+            </div>
             <div class="form-group">
                 @Html.LabelFor(m => m.BranchName, "Branch Name")
                 @Html.DropDownListFor(m => m.BranchName, Model.Branches.Select(b => new SelectListItem { Text = b, Value = b }))

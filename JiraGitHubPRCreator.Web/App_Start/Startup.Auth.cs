@@ -25,7 +25,7 @@ namespace JiraGitHubPRCreator.Web
             var options = new GitHubAuthenticationOptions
             {
                 ClientId = "9b93842bb29d1e80bbb2",
-                ClientSecret = "e84174efa9f9c86f93af376b20b8f217f0a03414",
+                ClientSecret = "47254d4151ee2e91b9e2a8b841e6458a394847af",
                 Provider = new GitHubAuthenticationProvider
                 {
                     OnAuthenticated = context =>

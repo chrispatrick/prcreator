@@ -15,6 +15,8 @@ namespace JiraGitHubPRCreator.Web.Models
         public bool MIvNext { get; set; }
         public bool AddLinksToJira { get; set; }
         public bool SetJiraIssuePendingMerge { get; set; }
-        public IEnumerable<string> Messages { get; set; } 
+        public IEnumerable<string> Messages { get; set; }
+        public string Repository { get; set; }
+        public IEnumerable<string> Repositories { get; set; } 
     }
 }
