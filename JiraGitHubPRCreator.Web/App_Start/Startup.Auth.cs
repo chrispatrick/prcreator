@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.Owin.Security;
@@ -24,8 +25,8 @@ namespace JiraGitHubPRCreator.Web
 
             var options = new GitHubAuthenticationOptions
             {
-                ClientId = "9b93842bb29d1e80bbb2",
-                ClientSecret = "47254d4151ee2e91b9e2a8b841e6458a394847af",
+                ClientId = ConfigurationManager.AppSettings["ClientId"],
+                ClientSecret = ConfigurationManager.AppSettings["ClientSecret"],
                 Provider = new GitHubAuthenticationProvider
                 {
                     OnAuthenticated = context =>
