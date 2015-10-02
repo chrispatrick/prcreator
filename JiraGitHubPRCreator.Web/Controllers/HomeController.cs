@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using Antlr.Runtime;
@@ -36,28 +37,18 @@ namespace JiraGitHubPRCreator.Web.Controllers
             var webUserNotifier = new WebUserNotifier();
             var linkedPrCreator = new LinkedPrCreator(accessToken, model.BranchName, model.JiraIssueId, model.PullRequestTitle, model.Description, "grantadesign", "mi", webUserNotifier);
 
-            var branchDefinitions = new List<BranchDefinition>();
-
-            if (model.MIvNext)
-            {
-                branchDefinitions.Add(new BranchDefinition("next", "next"));
-            }
-            if (model.MIv81)
-            {
-                branchDefinitions.Add(new BranchDefinition("releases/8.1/next", "8.1"));
-            }
-            if (model.MIv80)
-            {
-                branchDefinitions.Add(new BranchDefinition("releases/8.0/next", "8.0"));
-            }
-            if (model.MIv7)
-            {
-                branchDefinitions.Add(new BranchDefinition("releases/7.0/next", "7.0"));
-            }
+            var branchDefinitions = CreateBranchDefinitions(model.TargetBranches);
 
             await linkedPrCreator.MakeLinkedPullRequests(branchDefinitions, model.AddLinksToJira, model.SetJiraIssuePendingMerge);
 
             return View("Index", await GetModel(webUserNotifier, model, accessToken));
+        }
+
+        private static List<BranchDefinition> CreateBranchDefinitions(IEnumerable<string> targetBranches)
+        {
+            var regex = new Regex(@"releases/(?<version>\S+)/next", RegexOptions.Compiled);
+
+            return targetBranches.Select(branch => regex.IsMatch(branch) ? new BranchDefinition(branch, regex.Match(branch).Groups["version"].Value) : new BranchDefinition(branch, branch)).ToList();
         }
 
         private async Task<PRRequestModel> GetModel(WebUserNotifier webUserNotifier, PRRequestModel model, string accessToken)
@@ -71,6 +62,7 @@ namespace JiraGitHubPRCreator.Web.Controllers
 
             var branchFetcher = new BranchFetcher(webUserNotifier);
             var branches = await branchFetcher.GetAllBranchNames(accessToken, username, "mi");
+            var availableTargetBranches = await branchFetcher.GetAllBranchNames(accessToken, "grantadesign", "mi");
 
             var repositoryFetcher = new RepositoryFetcher(webUserNotifier);
             var repositories = await repositoryFetcher.GetAllRepositoryNames(accessToken, "grantadesign");
@@ -79,6 +71,7 @@ namespace JiraGitHubPRCreator.Web.Controllers
             model.Repository = "mi";
 
             model.Branches = branches;
+            model.AvailableTargetBranches = availableTargetBranches;
             model.Messages = webUserNotifier.Messages;
 
             return model;
